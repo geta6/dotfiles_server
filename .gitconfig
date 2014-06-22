@@ -1,0 +1,26 @@
+[user]
+  email        = getakura@gmail.com
+  name         = geta6
+[core]
+  editor       = vim
+  pager        = less
+  excludesfile = ~/.gitignore
+[alias]
+  a            = add
+  dry          = add --all --dry-run
+  update       = add --all
+  d            = diff --minimal
+  changed      = diff --diff-filter=MR
+  ls           = ls-tree -r --name-only HEAD
+  la           = ls-tree -r --name-only HEAD
+  l            = log --oneline --decorate
+  lg           = log --oneline --decorate --graph --all
+  s            = status
+  ss           = status --short
+[color]
+  status = auto
+  diff   = auto
+  branch = auto
+  ui     = auto
+[http]
+  postBuffer = 104857600
