@@ -114,13 +114,16 @@ case ${UID} in
     zstyle ':completion:*:sudo:*' command-path `echo $SUDOPATH`
     case ${HOST} in
       miku)
-        PROMPT="%{${fg[cyan]}%}%n@%m%{${reset_color}%} %{${fg[blue]}%}$%{${reset_color}%} "
+        PROMPT="%{${fg[cyan]}%}%n@%m $%{${reset_color}%} "
         ;;
-      ruka)
-        PROMPT="%{${fg[magenta]}%}%n@%m%{${reset_color}%} %{${fg[blue]}%}$%{${reset_color}%} "
+      haku)
+        PROMPT="%{${fg[blue]}%}%n@%m $%{${reset_color}%} "
         ;;
-      rin|len)
-        PROMPT="%{${fg[yellow]}%}%n@%m%{${reset_color}%} %{${fg[blue]}%}$%{${reset_color}%} "
+      neru)
+        PROMPT="%{${fg[yellow]}%}%n@%m $%{${reset_color}%} "
+        ;;
+      teto)
+        PROMPT="%{${fg[magenta]}%}%n@%m $%{${reset_color}%} "
         ;;
       *)
         PROMPT="%{${fg[green]}%}%n@%m%{${reset_color}%} %{${fg[blue]}%}$%{${reset_color}%} "
@@ -129,17 +132,16 @@ case ${UID} in
     ;;
 esac
 
-PROMPT2="%B%{${fg[magenta]}%}%_#%{${reset_color}%}%b "
-SPROMPT="%B%{${fg[magenta]}%}%r is correct? [n,y,a,e] :%{${reset_color}%}%b "
 
 case "${TERM}" in
   kterm*|xterm)
-    precmd() {
-      echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
-    }
+    precmd() { echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007" }
     ;;
 esac
 
+
+PROMPT2="%B%{${fg[magenta]}%}%_#%{${reset_color}%}%b "
+SPROMPT="%B%{${fg[magenta]}%}%r is correct? [n,y,a,e] :%{${reset_color}%}%b "
 
 #
 # Aliases and Functions

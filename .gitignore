@@ -2,6 +2,7 @@
 .DS_Store
 .Apple*
 node_modules
+.vim/view
 
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
