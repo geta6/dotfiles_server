@@ -4,6 +4,8 @@ git submodule update --init
 
 PWD=`pwd`
 
-for f in ./.*; do
-  ln -sfv $PWD/$f ~/$f
+for f in .*; do
+  if [ ! .git = $f ]; then
+    ln -sfv $PWD/$f ~/$f
+  fi
 done
