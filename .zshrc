@@ -114,7 +114,7 @@ case ${UID} in
     zstyle ':completion:*:sudo:*' command-path `echo $SUDOPATH`
     case ${HOST} in
       miku)
-        PCOLOR=${fg[cyan]}
+        PCOLOR=$'\x1b[38;5;44m'
         ;;
       haku)
         PCOLOR=$'\x1b[38;5;60m'
