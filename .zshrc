@@ -114,21 +114,25 @@ case ${UID} in
     zstyle ':completion:*:sudo:*' command-path `echo $SUDOPATH`
     case ${HOST} in
       miku)
-        PROMPT="%{${fg[cyan]}%}%n@%m $%{${reset_color}%} "
+        PCOLOR=${fg[cyan]}
         ;;
       haku)
-        PROMPT="%{${fg[blue]}%}%n@%m $%{${reset_color}%} "
+        PCOLOR=${fg[blue]}
         ;;
       neru)
-        PROMPT="%{${fg[yellow]}%}%n@%m $%{${reset_color}%} "
+        PCOLOR=${fg[yellow]}
         ;;
       teto)
-        PROMPT="%{${fg[magenta]}%}%n@%m $%{${reset_color}%} "
+        PCOLOR=${fg[magenta]}
+        ;;
+      ruka)
+        PCOLOR=$'\x1b[38;5;182m'
         ;;
       *)
-        PROMPT="%{${fg[green]}%}%n@%m%{${reset_color}%} %{${fg[blue]}%}$%{${reset_color}%} "
+        PCOLOR=${fg[green]}
         ;;
     esac
+    PROMPT="%{$PCOLOR%}%n@%m $ %{${reset_color}%}"
     ;;
 esac
 
