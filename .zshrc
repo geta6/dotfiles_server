@@ -117,7 +117,7 @@ case ${UID} in
         PCOLOR=${fg[cyan]}
         ;;
       haku)
-        PCOLOR=${fg[blue]}
+        PCOLOR=$'\x1b[38;5;60m'
         ;;
       neru)
         PCOLOR=${fg[yellow]}
