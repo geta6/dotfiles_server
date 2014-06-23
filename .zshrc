@@ -120,7 +120,7 @@ case ${UID} in
         PCOLOR=$'\x1b[38;5;60m'
         ;;
       neru)
-        PCOLOR=${fg[yellow]}
+        PCOLOR=$'\x1b[38;5;214m'
         ;;
       teto)
         PCOLOR=$'\x1b[38;5;162m'
