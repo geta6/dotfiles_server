@@ -1,11 +1,12 @@
 #!/bin/zsh
 
-git submodule update --init
-
-PWD=`pwd`
+git submodule init
+git submodule update
+git submodule foreach 'git pull origin master'
 
 for f in .*; do
-  if [ ! .git = $f ]; then
-    ln -sfv $PWD/$f ~/$f
+  if test ! .git = $f && test ! .gitmodules = $f; then
+    rm -f ~/$f
+    ln -sfv `pwd`/$f ~/$f
   fi
 done
