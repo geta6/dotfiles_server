@@ -3,6 +3,7 @@
 .Apple*
 node_modules
 .vim/view
+.vim/bundle
 
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
