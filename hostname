@@ -1,0 +1,23 @@
+#!/bin/zsh
+
+if [ -z $1 ]; then
+  echo '$1 required'
+  exit 1
+fi
+
+HOST=$1
+
+if [ ! -f ./.zsh/icons/${HOST}.png.txt ]; then
+  echo 'invalid hostname desired'
+  exit 1
+fi
+
+cat ./.zsh/icons/${HOST}.png.txt > /etc/motd
+hostname $HOST
+echo $HOST > /etc/hostname
+
+cat <<EOF > /etc/hosts
+127.0.0.1  localhost
+127.0.1.1  ${HOST}
+EOF
+

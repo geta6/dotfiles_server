@@ -4,6 +4,7 @@
 node_modules
 .vim/view
 .vim/bundle
+.vim/.netrwhist
 
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
