@@ -128,6 +128,9 @@ case ${UID} in
       ruka)
         PCOLOR=$'\x1b[38;5;182m'
         ;;
+      ia)
+        PCOLOR=$'\x1b[38;5;224m'
+        ;;
       *)
         PCOLOR=${fg[green]}
         ;;
