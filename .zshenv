@@ -60,7 +60,9 @@ export GIT_EDITOR=$EDITOR
 NOKOGIRI_USE_SYSTEM_LIBRARIES=YES
 
 # NODE
-[[ -d /usr/local/opt/nvm ]] && export NVM_DIR=/usr/local/opt/nvm
-[[ -d $NVM_DIR ]] && source $NVM_DIR/nvm.sh
-[[ -f `which npm` ]] && eval "$(npm completion)"
+[[ -d /usr/local/opt/nodebrew ]] && export NODEBREW_ROOT=/usr/local/var/nodebrew
+[[ -x `which nodebrew` ]] && export PATH=$NODEBREW_ROOT/current/bin:$PATH
+
+# PKGCONFIG
+[[ -d /opt/X11/lib/pkgconfig ]] && export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/X11/lib/pkgconfig
 
