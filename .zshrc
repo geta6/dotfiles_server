@@ -95,6 +95,7 @@ setopt glob_complete
 #
 COMPPATH=''
 SUDOPATH=''
+
 for it in `echo $PATH | sed -e 's/:/ /g'`; do
   if [[ sbin = `basename $it` ]]; then
     SUDOPATH="$SUDOPATH $it"
@@ -276,6 +277,8 @@ if is-at-least 4.3.11; then
   }
 fi
 
+IPADDR=`ifconfig | head -n2 | tail -1 | cut -d':' -f2 | cut -d ' ' -f1`
+
 function _update_vcs_info_msg() {
   local -a messages
   local prompt
@@ -288,7 +291,7 @@ function _update_vcs_info_msg() {
     [[ -n "$vcs_info_msg_2_" ]] && messages+=("%F{red}${vcs_info_msg_2_}%f")
     prompt="${(j: :)messages}"
   fi
-  RPROMPT="$prompt %{${fg[blue]}%}[`pwd | sed "s:$HOME:~:"`]%{${reset_color}%}"
+  RPROMPT="$prompt %{${fg[blue]}%}[`pwd | sed "s:$HOME:~:"` | ${IPADDR}]%{${reset_color}%}"
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
