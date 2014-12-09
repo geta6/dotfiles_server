@@ -69,9 +69,6 @@
 [pack]
   threads = 0
 
-[credential]
-  helper = osxkeychain
-
 [pull]
   default = current
 
