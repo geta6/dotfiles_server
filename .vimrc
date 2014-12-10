@@ -1,33 +1,10 @@
-"
-" Default setting
-"
-if filereadable("/etc/vim/vimrc")
-  source /etc/vim/vimrc
-endif
-
-"
-" NeoBundle
-"
-set nocompatible
-filetype off
-if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
-  call neobundle#begin(expand('~/.vim/bundle/'))
-  NeoBundleFetch 'Shougo/neobundle.vim'
-  call neobundle#end()
-endif
-NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'sheerun/vim-polyglot'
-NeoBundle 'altercation/vim-colors-solarized'
-
-"
-" Global configuration
-"
-set ambiwidth=double
+set number
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set autoindent
 set laststatus=2
+set ambiwidth=double
 set showcmd
 set showmatch
 set matchtime=1
@@ -54,121 +31,83 @@ set lazyredraw
 set ttyfast
 set ttyscroll=3
 set cursorline
-set undodir=~/.vim/view
+set undodir=~/.vim/undo
 set undofile
+
 nmap <ESC><ESC> ;nohlsearch<CR><ESC>
-augroup cch
-  autocmd! cch
-  autocmd WinLeave * set nocursorline
-  autocmd WinEnter,BufRead * set cursorline
-augroup END
-
-
-"
-" Indentation
-"
-set tabstop=2
-set shiftwidth=2
-set expandtab
-set autoindent
-
-
-"
-" Key remap
-"
 nnoremap ; :
 set virtualedit=block
 set backspace=indent,eol,start
-set t_kD=[3~
 set list
 set listchars=tab:›\ ,eol:\ ,trail:~
 
-
-"
-" Move to last edited line
-"
-au BufWritePost * mkview
-autocmd BufReadPost * loadview
-
-
-"
-" File handling
-"
 set fileencodings=utf-8
 set fileformats=unix,dos
 set encoding=utf-8
 set fileformat=unix
-filetype plugin on
-autocmd BufWritePre * :%s/\s\+$//ge
 
+if !1 | finish | endif
 
-"
-" Coloring
-"
+if has('vim_starting')
+  if &compatible
+    set nocompatible
+  endif
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+
+call neobundle#begin(expand('~/.vim/bundle/'))
+NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'itchyny/lightline.vim'
+NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'marijnh/tern_for_vim', {'build': {'others': 'npm install'}}
+NeoBundle has('lua') ? 'Shougo/neocomplete' : 'Shougo/neocomplcache'
+NeoBundle 'scrooloose/syntastic'
+call neobundle#end()
+
+if neobundle#is_installed('neocomplete')
+  let g:neocomplete#enable_at_startup = 1
+  let g:neocomplete#enable_ignore_case = 1
+  let g:neocomplete#enable_smart_case = 1
+  if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+  endif
+  let g:neocomplete#keyword_patterns._ = '\h\w*'
+  let g:neocomplete#force_overwrite_completefunc=1
+  inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+elseif neobundle#is_installed('neocomplcache')
+  let g:neocomplcache_enable_at_startup = 1
+  let g:neocomplcache_enable_ignore_case = 1
+  let g:neocomplcache_enable_smart_case = 1
+  if !exists('g:neocomplcache_keyword_patterns')
+    let g:neocomplcache_keyword_patterns = {}
+  endif
+  let g:neocomplcache_keyword_patterns._ = '\h\w*'
+  let g:neocomplcache_enable_camel_case_completion = 1
+  let g:neocomplcache_enable_underbar_completion = 1
+  let g:neocomplcache_force_overwrite_completefunc=1
+  inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+endif
+
+let s:bundle = neobundle#get('syntastic')
+function! s:bundle.hooks.on_source(bundle)
+  let g:syntastic_check_on_open = 0
+  let g:syntastic_check_on_wq = 0
+  let g:syntastic_auto_loc_list = 1
+  let g:syntastic_loc_list_height = 5
+endfunction
+
 syntax enable
 set background=dark
-colorscheme solarized
-let g:solarized_termcolors=256
-let g:solarized_termtrans=1
-function! ActivateInvisibleIndicator()
-  hi SpecialKey cterm=NONE ctermfg=darkgray guifg=darkgray
-  hi ZenkakuSpace cterm=underline ctermfg=red gui=underline guifg=#FF0000
-  match ZenkakuSpace /　/
-endfunction
-augroup InvisibleIndicator
-  autocmd!
-  autocmd BufEnter * call ActivateInvisibleIndicator()
-augroup END
+colorscheme hybrid
 
-
-"
-" Module configuration
-"
-cnoremap <C-p> <Up>
-cnoremap <Up>  <C-p>
-cnoremap <C-n> <Down>
-cnoremap <Down>  <C-n>
-
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_underbar_completion = 1
-let g:neocomplcache_min_syntax_length = 1
-
-imap <C-k> <Plug>(neocomplcache_snippets_expand)
-smap <C-k> <Plug>(neocomplcache_snippets_expand)
-inoremap <expr><C-g> neocomplcache#undo_completion()
-inoremap <expr><C-l> neocomplcache#complete_common_string()
-
-inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y> neocomplcache#close_popup()
-inoremap <expr><C-e> neocomplcache#cancel_popup()
-
-inoremap <expr><Up> neocomplcache#close_popup()."\<Up>"
-inoremap <expr><Down> neocomplcache#close_popup()."\<Down>"
-inoremap <expr><Left> neocomplcache#close_popup()."\<Left>"
-inoremap <expr><Right> neocomplcache#close_popup()."\<Right>"
-
-autocmd FileType quickrun AnsiEsc
-
-let g:airline_enable_branch = 0
-let g:airline_section_b = "%t %M"
-let g:airline_section_c = ''
-let s:sep = " %{get(g:, 'airline_right_alt_sep', '')} "
-let g:airline_section_x =
-      \ "%{strlen(&fileformat)?&fileformat:''}".s:sep.
-      \ "%{strlen(&fenc)?&fenc:&enc}".s:sep.
-      \ "%{strlen(&filetype)?&filetype:'no ft'}"
-let g:airline_section_y = '%3p%%'
-let g:airline_section_z = get(g:, 'airline_linecolumn_prefix', '').'%3l:%-2v'
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#whitespace#enabled = 0
-
-"
-" Finalize
-"
 filetype plugin indent on
+
+au BufWritePost * mkview
+autocmd BufReadPost * loadview
+
 NeoBundleCheck
+
